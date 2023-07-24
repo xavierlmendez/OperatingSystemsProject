@@ -8,9 +8,9 @@ using namespace synchronization;
 barrier::barrier( int numberOfThreads ) {
    waiting = 0;
    numOfProcess = numberOfThreads;
-   sem_init(&Lock, 0, 1)
-   sem_init(&Gate1, 0, 0)
-   sem_init(&Gate2, 0, 1)
+   sem_init(&Lock, 0, 1);
+   sem_init(&Gate1, 0, 0);
+   sem_init(&Gate2, 0, 1);
    return;
 }
 
