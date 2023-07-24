@@ -1,27 +1,22 @@
-CC = g++
+CC = /bin/g++
 CCFLAGS = -g -std=c++11
-# LIBRARIES = -lboost_system -lboost_thread
-LIBRARIES = -lpthread
-EXECUTABLES = n-threads
+INCLUDES =
+LIBRARIES = -lboost_system -lboost_thread -lpthread -lrt
+# LIBRARIES = -lpthread
+EXECUTABLES = prefix-sum
 
-# Command for creating an executable file
-.cpp:
-	$(CC) $(CCFLAGS) $(INCLUDES) -o $@ $@.cpp $(LIBRARIES)
+prefix-sum: prefix-sum.o barrier.o
+	$(CC) $(CCFLAGS) $(INCLUDES) -o prefix-sum prefix-sum.o barrier.o $(LIBRARIES)
 
-# Command for creating an executable file
-.o:
-	$(CC) -o $@ $@.o $(LIBRARIES)
+barrier.o: barrier.h
 
 # Rule for generating .o file from .cpp file
-%.o: %.cpp 
+%.o: %.cpp
 	$(CC) $(CCFLAGS) $(INCLUDES) -c $^ 
 
 # All files to be generated
-all: $(EXECUTABLES) 
-#	$(CC) $(CCFLAGS) threads.cpp -o threads $(CCLIBRARIES)
+all: prefix-sum 
 
 # Clean the directory
 clean: 
-	rm -f $(EXECUTABLES)  *.o
-		
-
+	rm -f $(EXECUTABLES)  *.o *.gch
