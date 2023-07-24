@@ -10,6 +10,11 @@ namespace synchronization
    // Provides a reusable barrier
    class barrier {
    private:
+      int waiting;
+      int numOfProcess;
+      sem_t Lock;
+      sem_t Gate1;
+      sem_t Gate2;
 
    public:
 
