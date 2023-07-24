@@ -6,7 +6,7 @@ using namespace synchronization;
 
    
 barrier::barrier( int numberOfThreads ) {
-
+   
    return;
 }
 
