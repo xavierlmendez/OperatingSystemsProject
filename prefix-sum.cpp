@@ -1,4 +1,5 @@
 //hxh190024
+//xlm200000
 /* This program solves the prefix sum problem using a parallel algorithm */
 
 #include <iostream>
