@@ -6,7 +6,6 @@ using namespace synchronization;
 
    
 barrier::barrier( int numberOfThreads ) {
-   std::cout << "starting barrier constructor\n";
    waiting = 0;
    numOfProcess = numberOfThreads;
    sem_init(&Lock, 0, 1);

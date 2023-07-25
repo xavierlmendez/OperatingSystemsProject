@@ -51,11 +51,11 @@ void doWork( int myid ) {
 	 {
 
 	    // simply copy the entry
-	    data[i+1][j] = data[i][j];
+	    data[1][j] = data[0][j];
 	 } else
          {
 	    // compute the sum of two specific entries
-            data[i+1][j] = data[i][j] + data[i][j-fixed];
+            data[1][j] = data[0][j] + data[0][j-fixed];
          }
 
       }
@@ -64,6 +64,10 @@ void doWork( int myid ) {
       fixed = 2*fixed;
 
       // Wait until all threads have completed their work before moving to the next phase
+      rendevousz->arriveAndWait( );
+      for(int j = 0; j < sizeOfInput; ++j){
+         data[0][j] = data[1][j];
+      }
       rendevousz->arriveAndWait( );
    }
  
@@ -111,13 +115,13 @@ int main( int argc, char** argv )
    //    data[m] stores the output array
    //    data[1]...data[m-1] store intermediate results
    //    data[i+1] is computed from data[i] in phase i, where i = 0,...,m-1
-   data = new int*[numberOfPhases+1];
+   data = new int*[2];
   
    // Allocate space for each of the m+1 individual arrays
-   for(int i = 0; i < numberOfPhases+1; ++i)
-   {
-      data[i] = new int[sizeOfInput];
-   }
+   
+   data[0] = new int[sizeOfInput];
+   data[1] = new int[sizeOfInput];
+   
 
    // Initialize elements of the input array (data[0])
    for(int j = 0; j < sizeOfInput; ++j)
@@ -149,7 +153,7 @@ int main( int argc, char** argv )
    // Print the output array
    
    for(int j = 0; j < sizeOfInput; ++j)
-      writeTo << "output[" << j << "] = " << data[numberOfPhases][j] << std::endl;
+      writeTo << "output[" << j << "] = " << data[1][j] << std::endl;
 
    
    // Cleanup: deallocate all dyamically allocated objects
@@ -161,7 +165,7 @@ int main( int argc, char** argv )
 
    }
 
-   for(int i = 0; i < numberOfPhases+1; ++i)
+   for(int i = 0; i < 2; ++i)
    {
       delete[] data[i];
       data[i] = NULL;
